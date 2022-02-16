@@ -66,17 +66,17 @@ function App() {
     collapsed={collapsed} 
     onCollapse={()=> setCollapse(!collapsed) }>
       <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-        <Menu.Item key="2" icon={<HomeOutlined />}>
+        <Menu.Item key="item1" icon={<HomeOutlined />}>
          Users
         </Menu.Item>
-        <Menu.Item key="1" icon={<LaptopOutlined />}>
+        <Menu.Item key="item2" icon={<LaptopOutlined />}>
           Teams
         </Menu.Item>
         <SubMenu key="sub1" icon={<UserOutlined />} title="User">
         { 
           dataSource.map(data =>(
 
-            <Menu.Item icon={<UserOutlined />} key="6">{data.name}</Menu.Item>
+            <Menu.Item icon={<UserOutlined />} key={data.key}>{data.name}</Menu.Item>
       
           ))
           }
@@ -85,7 +85,7 @@ function App() {
           { 
           dataSource.map(data =>(
 
-            <Menu.Item icon={<TeamOutlined />} key="6">{data.team}</Menu.Item>
+            <Menu.Item icon={<TeamOutlined />} key="team">{data.team}</Menu.Item>
       
           ))
           }
