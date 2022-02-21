@@ -1,5 +1,5 @@
 import './App.css'
-import { Layout, Menu, Breadcrumb, Typography ,Table} from 'antd';
+import { Layout, Menu } from 'antd';
 import {
   HomeOutlined,
   LaptopOutlined,
@@ -7,9 +7,11 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { useState } from 'react';
+import { BrowserRouter as Router, Link, Route} from 'react-router-dom';
+import  UserTable from './components/UserTable'
+import StatisticPage from './components/StatisticPage';
 
-const { Title } = Typography;
-const { Header, Content, Footer, Sider } = Layout;
+const { Sider } = Layout;
 const { SubMenu } = Menu;
 
 const dataSource = [
@@ -30,79 +32,48 @@ const dataSource = [
   },
 ];
 
-const columns = [
-  {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-  },
-  {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
-  },
-  {
-    title: 'Team',
-    dataIndex: 'team',
-    key:'team',
-  },
-];
-
-
-
 function App() {
 
   const [collapsed, setCollapse] = useState(false);
   
   return (
-    <Layout style={{ minHeight: '100vh' }}>
-    <Sider
-    collapsible 
-    collapsed={collapsed} 
-    onCollapse={()=> setCollapse(!collapsed) }>
-      <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-        <Menu.Item key="item1" icon={<HomeOutlined />}>
-         Users
-        </Menu.Item>
-        <Menu.Item key="item2" icon={<LaptopOutlined />}>
-          Teams
-        </Menu.Item>
-        <SubMenu key="sub1" icon={<UserOutlined />} title="User">
-        { 
-          dataSource.map(data =>(
-
-            <Menu.Item icon={<UserOutlined />} key={data.key}>{data.name}</Menu.Item>
-      
-          ))
-          }
-        </SubMenu>
-        <SubMenu key="sub2" icon={<TeamOutlined />} title="Team">
+    <Router>
+      <Layout style={{ minHeight: '100vh' }}>
+      <Sider
+      collapsible 
+      collapsed={collapsed} 
+      onCollapse={()=> setCollapse(!collapsed) }>
+        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+          <Menu.Item key="item1" icon={<HomeOutlined />}>
+           <Link to="/">Home</Link> 
+          </Menu.Item>
+          <Menu.Item key="item2" icon={<LaptopOutlined />}>
+          <Link to="/users">Users</Link> 
+          </Menu.Item>
+          <SubMenu key="sub1" icon={<UserOutlined />} title="User">
           { 
-          dataSource.map(data =>(
+            dataSource.map(data =>(
 
-            <Menu.Item icon={<TeamOutlined />} key="team">{data.team}</Menu.Item>
-      
-          ))
-          }
-        </SubMenu>
-      </Menu>
-    </Sider>
-    <Layout className="site-layout">
-      <Header className="site-layout-background" style={{ padding: 0 }} />
-      <Content style={{ margin: '0 16px' }}>
-        <Breadcrumb style={{ margin: '16px 0' }}>
-          <Breadcrumb.Item>Users</Breadcrumb.Item>
-        </Breadcrumb>
-        <Table dataSource={dataSource} columns={columns} />;
-      </Content>
-      <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+              <Menu.Item icon={<UserOutlined />} key={data.key}>{data.name}</Menu.Item>
+            
+            ))
+            }
+          </SubMenu>
+          <SubMenu key="sub2" icon={<TeamOutlined />} title="Team">
+            { 
+            dataSource.map(data =>(
+
+              <Menu.Item icon={<TeamOutlined />} key={data.name}>{data.team}</Menu.Item>
+
+              ))
+            }
+          </SubMenu>
+        </Menu>
+      </Sider>
+          <Route exact path="/" component={StatisticPage}/>
+          <Route exact path="/users" component={() => <UserTable dataSource={dataSource} />}/>
     </Layout>
-  </Layout>
+  </Router>
   )
 }
 
